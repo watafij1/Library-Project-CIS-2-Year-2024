@@ -8,12 +8,54 @@ public class Library {
 
 
     /**
-     * Adds a book to the library. If the library already has this book then it
-     * adds the number of copies the library has.
+     * Adds a book to the library. If the library already has this 
+     * book then it adds to the number of copies the library has.
+     * @throws IllegalArgumentException no parts of book object can be empty or null
+     * @param book a book object to be added
+     * @author Anzac Houchen 
+     * @author anzac.shelby@gmail.com
+     * Print statements are for Debugging and should be commented out.
      */
     public void addBook(Book book) {
-        // TODO: Implement this method.
-        throw new UnsupportedOperationException("not implemented");
+        if (book == null) {
+            throw new IllegalArgumentException("Book must not be null value.");
+        }
+        if (book.getTitle() == null || book.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("This book is missing a Title.");
+        }
+        if (book.getAuthor() == null || book.getAuthor().isEmpty()) {
+            throw new IllegalArgumentException("Book is missing Author.");
+        }
+        if (book.getIsbn() == null || book.getIsbn().isEmpty()) {
+            throw new IllegalArgumentException("ISBN can't be emtpy");
+        }
+        if (book.getPublicaitonYear() > 2025 || 
+        book.getPublicationYear() < 0) {
+            throw new IllegalArgumentException("Book is published in future?");
+        }
+        if (book.getNumberOfCopies() < 1) {
+            throw new IllegalArgumentException("Number of copies must be 1 or more");
+        }
+        // Search for the book 
+        Book alreadyAddedBook = bst.findByISBN(book.getIsbn());
+        if (alreadyAddedBook != null) { // Book is already added
+            // Update copies
+            alreadyAddedBook.addCopies(book.getNumberOfCopies());
+        }
+        else { // Adding new book not already in Library to linked list
+            Node newNode = new Node(book);
+            newNode.next = head;
+            head = newNode;
+            // Add to binary search tree
+            bst.add(book);
+        }
+        // Inform terminal of what has been done by this method for debug.
+        System.out.println();
+        System.out.println(book.getNumberOfCopies());
+        System.out.print(" copies of " + book.getTitle());
+        System.out.print(" were added. Total copies now ");
+        System.out.print(alreadyAddedBook.getNumberOfCopies() + ".");
+        System.out.println("ISBN: " + book.getIsbn());
     }
 
     /**

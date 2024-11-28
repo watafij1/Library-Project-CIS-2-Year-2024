@@ -14,9 +14,10 @@ public class Library {
      * @param book a book object to be added
      * @author Anzac Houchen 
      * @author anzac.shelby@gmail.com
-     * Print statements are for Debugging and should be commented out.
+     * Print statements are for Debugging.
      */
     public void addBook(Book book) {
+	    // Prevent bad data from being added.
         if (book == null) {
             throw new IllegalArgumentException("Book must not be null value.");
         }
@@ -36,7 +37,7 @@ public class Library {
         if (book.getNumberOfCopies() < 1) {
             throw new IllegalArgumentException("Number of copies must be 1 or more");
         }
-        // Search for the book 
+        // Search for the book using binary search tree(not yet implemented)
         Book alreadyAddedBook = bst.findByISBN(book.getIsbn());
         if (alreadyAddedBook != null) { // Book is already added
             // Update copies
@@ -46,16 +47,16 @@ public class Library {
             Node newNode = new Node(book);
             newNode.next = head;
             head = newNode;
-            // Add to binary search tree
+            // Add to binary search tree (not yet implemented)
             bst.add(book);
         }
-        // Inform terminal of what has been done by this method for debug.
-        System.out.println();
-        System.out.println(book.getNumberOfCopies());
-        System.out.print(" copies of " + book.getTitle());
-        System.out.print(" were added. Total copies now ");
-        System.out.print(alreadyAddedBook.getNumberOfCopies() + ".");
-        System.out.println("ISBN: " + book.getIsbn());
+        // Uncomment to Debug.
+        // System.out.println();
+        // System.out.println(book.getNumberOfCopies());
+        // System.out.print(" copies of " + book.getTitle());
+        // System.out.print(" were added. Total copies now ");
+        // System.out.print(alreadyAddedBook.getNumberOfCopies() + ".");
+        // System.out.println("ISBN: " + book.getIsbn());
     }
 
     /**
@@ -110,6 +111,60 @@ public class Library {
         throw new UnsupportedOperationException("not implemented");
     }
 
+/**
+ * An unordered linked list class.
+ * This list allows for adding elements to the front of the list
+ * @param<T> generic type elements in this list.
+ * @author Anzac Houchen
+ * @author anzac.shelby@gmail.com
+ */
+public class UnorderedLinkedList<T> {
+    private Node<T> head;
+
+    /**
+     * Constructor. Creates empty list.
+     * @author Anzac Houchen
+     * @author anzac.shelby@gmail.com
+     */
+    public UnorderedLinkedList() {
+        head = null;
+    }
+
+    /**
+     * Adds a Node to the front of the list.
+     * @param data A book or other element 
+     * @author Anzac Houchen
+     * @author anzac.shelby@gmail.com
+     */
+    public void add(T data) {
+        Node<T> newNode = new Node<>(data);
+        newNode.next = head;
+        head = newNode;
+    }
+
+
+    /**
+     * Inner inner class to create nodes for list.
+     * @param <T> data stored in the node ie. book
+     * @author Anzac Houchen
+     * @author anzac.shelby@gmail.com
+     */
+    private class Node {
+        T data;
+        Node next;
+
+        /**
+         * Constructor. Makes nodes with data as input.
+         * @param data will be a book object in the Library
+         * @author Anzac Houchen
+         * @author anzac.shelby@gmail.com
+         */
+        public Node(T data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+}
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 

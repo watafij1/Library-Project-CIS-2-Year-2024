@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Iterator;
 
 /**
  * A library management class. Has a simple shell that users can interact with to add/remove/checkout/list books in the library.

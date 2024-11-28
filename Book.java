@@ -1,6 +1,7 @@
+import java.util.Objects;
 /**
  * Encapusulates information about a book.
- * @author Balaji Srinivasan
+ * @author Team Cobra 
  */
 public class Book {
     String title;
@@ -64,10 +65,17 @@ public class Book {
         numberOfCopies += numCopiesToAdd;
     }
 
+    /**
+     * This method returns a unique hash code by creating a hash code for 
+     * title then author then isbn then combining the three so that the hash
+     * code used is deffinitly for the book it is supose to be for.
+     * @return a hash code unique to the book in  question
+     * @author Anzac Houchen
+     * @author anzac.shelby@gmail.com
+     */
     @Override
     public int hashCode() {
-        // TODO: Implement an appropriate hash code for a book.
-        throw new UnsupportedOperationException("Not implemented");
+        return Objects.hash(title, author, isbn);
     }
 
     @Override

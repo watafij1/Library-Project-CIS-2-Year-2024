@@ -79,16 +79,42 @@ public class Library {
     /**
      * Finds this book in the library. Throws appropriate exception if the book
      * doesnt exist.
+     * @param title the title of the book the program is to find
+     * @param author the author of the book the program is to find
+     * @return the book object that specifically matches the provided title and author
+     * @throws IllegalArgumentException if author or title is incorrectly provided 
+     * @throws UnsupportedOperationException if no book is found with the user's input
+     * @author Sreyas Kishore
+     * @author sreyas.kishore@gmail.com
      */
     public Book findByTitleAndAuthor(String title, String author) {
-        // TODO: Implement this method.
-        throw new UnsupportedOperationException("not implemented");
+        // If statements validate the user's input to the program and returns appropriate exceptions.
+    if (title == null || title.isEmpty()) {
+        throw new IllegalArgumentException("Title cannot be null or empty.");
+    }
+    if (author == null || author.isEmpty()) {
+        throw new IllegalArgumentException("Author cannot be null or empty.");
+    }
+
+    // Correct inputs redirected towards the UnorderedLinkedList with the list of books.
+    UnorderedLinkedList.Node<Book> current = bookList.head; // Access the head of the linked list
+    while (current != null) {
+        Book book = current.data; // Access the book object
+        if (book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)) {
+            return book; // Returns or outputs book if a match with author or title is found.
+        }
+        current = current.next; // Move to the next node
+    }
+
+    // If no match is found with the user's input, throw exception. 
+        throw new UnsupportedOperationException("Book not found: Title = " + title + ", Author = " + author);
     }
 
     /**
      * Finds this book in the library. Throws appropriate exception if the book
      * doesnt exist.
      */
+     
     public Book findByISBN(String isbn) {
         // TODO: Implement this method.
         throw new UnsupportedOperationException("not implemented");

@@ -213,12 +213,41 @@ public class UnorderedLinkedList<T> {
 				// e.g. checkout ISBN-1234
 				// NOTE: If the book doesnt exist in the library, then the code should print an error.
 			} else if (line.startsWith("findByTitleAndAuthor")) {
-				// TODO: Implement this case.
-				// The format of the line is
-				// findByTitleAndAuthor <title> <author>
-				// e.g. findByTitleAndAuthor Star_Trek Gene_Roddenberry
-				// NOTE: If the book doesnt exist in the library, then the code should print an error.
-				// If the book exists in the library, this code should print the ISBN, number of copies in the library, and the number of copies availabvle
+    try {
+        /**
+         * Separates and interprets the title and author from the input.
+         * Processes the "findByTitleAndAuthor" command from the user input.
+         * @throws IllegalArgumentException if the title or author is not provided or the book is not found in the library.
+         * @throws UnsupportedOperationException if the method in the library is not implemented.
+         * @param line the input line containing the command and parameters.
+         * @author Sreyas Kishore
+         * @author sreyas.kishore@gmail.com
+         */
+        
+        // Split the input into command, title, and author
+        String[] parts = line.split(" ", 3); 
+        if (parts.length < 3) {
+            throw new IllegalArgumentException("Usage: findByTitleAndAuthor <title> <author>");
+        }
+
+        String title = parts[1];
+        String author = parts[2];
+
+        // Call the findByTitleAndAuthor method
+        Book foundBook = library.findByTitleAndAuthor(title, author);
+
+        // Prints the details about the found book
+        System.out.println("Book has been found:");
+        System.out.println("ISBN: " + foundBook.getIsbn());
+        System.out.println("Number of Copies in Library: " + foundBook.getNumberOfCopies());
+        System.out.println("Number of Copies Available: " + 
+                           (foundBook.getNumberOfCopies() - foundBook.getCheckedOutCopies()));
+    } catch (IllegalArgumentException e) {
+        System.out.println("Error: " + e.getMessage());
+    } catch (UnsupportedOperationException e) {
+        System.out.println("Error: " + e.getMessage());
+    }
+}
 			} else if (line.startsWith("return")) {
 				// TODO: Implement this case.
 				// Format of the line is

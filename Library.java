@@ -97,10 +97,20 @@ public class Library {
     /**
      * Returns a book to the library
      */
-    public void returnBook(String isnb) {
-        // TODO: Implement this method.
-        throw new UnsupportedOperationException("not implemented");
+    public void returnBook(String isbn) {
+    Book book = findByISBN(isbn);
+
+    if (book == null) {
+        throw new IllegalArgumentException("Book with ISBN " + isbn + " does not exist.");
     }
+
+    if (book.getCheckedOutCopies() <= 0) {
+        throw new IllegalStateException("No checked-out copies of the book with ISBN " + isbn + " to return.");
+    }
+
+    book.setCheckedOutCopies(book.getCheckedOutCopies() - 1);
+}
+
 
     /**
      * Finds this book in the library. Throws appropriate exception if the book

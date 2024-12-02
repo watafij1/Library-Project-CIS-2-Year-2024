@@ -1,6 +1,10 @@
 
+import com.sun.net.httpserver.Headers;
 import java.util.Scanner;
 import java.util.Iterator;
+import java.io.File;
+import java.io.FileNotFoundException;
+import javax.sound.sampled.Line;
 
 /**
  * A library management class. Has a simple shell that users can interact with
@@ -33,7 +37,7 @@ public class Library {
         if (book.getIsbn() == null || book.getIsbn().isEmpty()) {
             throw new IllegalArgumentException("ISBN can't be emtpy");
         }
-        if (book.getPublicaitonYear() > 2025
+        if (book.getPublicationYear() > 2025
                 || book.getPublicationYear() < 0) {
             throw new IllegalArgumentException("Book is published in future?");
         }
@@ -195,10 +199,38 @@ public class Library {
     /**
      * Loads the contents of this library from the given file. All existing data
      * in this library is cleared before loading from the file.
+     *
+     * @author Diya Prasanth
+     * @param filename
+     * @throws FileNotFoundException if the provided filename is invalid
+     * @throws NumberFormatException if publication year or number of copies are
+     * invalid
      */
     public void load(String filename) {
-        // TODO: Implement this method.
-        throw new UnsupportedOperationException("not implemented");
+        /**
+         * TBD: clear bst/linked list
+         */
+        File fIn = new File(filename);
+        try (Scanner inputFile = new Scanner(fIn)) {
+            while (inputFile.hasNextLine()) {
+                String content = inputFile.nextLine();
+                /**
+                 * Assume the different book info is seperated by commas
+                 */
+                String[] bookArray = content.split(",");
+                System.out.println("Adding Book. Title: %s, Author: %s, ISBN: %s, Publication Year: %d, Copies: %d");
+                Book newBook = new Book(bookArray[0], bookArray[1], bookArray[2],
+                        Integer.parseInt(bookArray[3]), Integer.parseInt(bookArray[4]));
+                addBook(newBook);
+            }
+        } catch (FileNotFoundException e) {
+            /**
+             * File exception: Input file was not found. Return error.
+             */
+            System.err.println("File not found.");
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid data in input file.");
+        }
     }
 
     /**
@@ -264,10 +296,12 @@ public class Library {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Library library = new Library();
 
         while (true) {
             System.out.print("library> ");
             String line = scanner.nextLine();
+
             // TODO: Implement code 
             if (line.startsWith("add")) {
                 // TODO: Implement this case.
@@ -352,10 +386,12 @@ public class Library {
 				// save <filename>
 				// e.g. save LbraryFile.dat
 			} else if (line.startsWith("load")) {
-				// TODO: Implement this case.
-				// Format of the line is:
-				// load <filename>
-				// e.g. load LibraryFile.dat
+                String[] parts = line.split(" ");
+                if (parts.length != 2) {
+                    System.err.println("Invalid input. Use the format 'load <filename>'");
+                } else {
+                    library.load(parts[1]);
+                }
 			} else if (line.startsWith("exit")) {
 				break;
 			}

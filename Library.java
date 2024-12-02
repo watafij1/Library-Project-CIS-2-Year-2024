@@ -136,15 +136,35 @@ public class Library {
         throw new UnsupportedOperationException("Book not found: Title = " + title + ", Author = " + author);
     }
 
-    /**
-     * Finds this book in the library. Throws appropriate exception if the book
-     * doesnt exist.
-     */
-     
-    public Book findByISBN(String isbn) {
-        // TODO: Implement this method.
-        throw new UnsupportedOperationException("not implemented");
+/**
+ * Finds a book in the library by its ISBN.
+ * @param isbn the ISBN of the book to find
+ * @return the book object if found, or null if no book matches the given ISBN
+ * @throws IllegalArgumentException if the provided ISBN is null or empty
+ * @throws UnsupportedOperationException if no book with the given ISBN is found
+ * @author Ethan Tran
+ * @author ethantran0324@gmail.com
+ */
+public Book findByISBN(String isbn) {
+    // Validate input
+    if (isbn == null || isbn.isEmpty()) {
+        throw new IllegalArgumentException("ISBN cannot be null or empty.");
     }
+
+    // Search through the library's linked list for the book
+    UnorderedLinkedList.Node<Book> current = bookList.head; // Access the head of the linked list
+    while (current != null) {
+        Book book = current.data; // Access the book object
+        if (book.getIsbn().equalsIgnoreCase(isbn)) { // Match ISBN (case-insensitive)
+            return book; // Book found
+        }
+        current = current.next; // Move to the next node
+    }
+
+    // If no book is found, throw an exception
+    throw new UnsupportedOperationException("Book not found with ISBN: " + isbn);
+}
+
 
     /**
      * Saves the contents of this library to the given file.

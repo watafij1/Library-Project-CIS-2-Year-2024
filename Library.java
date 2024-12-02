@@ -123,6 +123,7 @@ public class Library {
  * @throws IllegalArgumentException if the provided ISBN is null or empty
  * @throws UnsupportedOperationException if no book with the given ISBN is found
  * @author Ethan Tran
+ * @author ethantran0324@gmail.com
  */
 public Book findByISBN(String isbn) {
     // Validate input

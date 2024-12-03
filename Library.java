@@ -515,6 +515,78 @@ public class Library {
             }
             return parent;
         }
+
+	    /**
+     * Removes a book from the tree by its ISBN.
+     * 
+     * @param isbn the ISBN of the book to remove
+     * @return the Book object that was removed
+     * @throws NoSuchElementException if the book with the specified ISBN is not found
+     * @author Anzac Houchen
+     */
+    public Book remove(String isbn) {
+        TreeNode nodeToRemove = get(isbn, root);
+        if (nodeToRemove == null) {
+            throw new NoSuchElementException(isbn + " not in tree.");
+        }
+        Book oldValue = nodeToRemove.value; // Store the value for return
+        removeNode(nodeToRemove);
+        size--;
+        return oldValue;
+    }
+
+    /**
+     * Helper method to remove a node from the tree.
+     * Handles three cases: no children, one child, or two children.
+     * 
+     * @param currentNode the node to remove
+     * @author Anzac Houchen
+     */
+    private void removeNode(TreeNode currentNode) {
+        if (currentNode.leftChild == null && currentNode.rightChild == null) {
+            // Case 1: No children
+            if (currentNode.parent.leftChild == currentNode) {
+                currentNode.parent.leftChild = null;
+            } else {
+                currentNode.parent.rightChild = null;
+            }
+        } else if (currentNode.leftChild != null && currentNode.rightChild != null) {
+            // Case 3: Two children
+            TreeNode successor = findSuccessor(currentNode);
+            currentNode.key = successor.key;
+            currentNode.value = successor.value;
+            removeNode(successor);
+        } else {
+            // Case 2: One child
+            TreeNode child = (currentNode.leftChild != null) ? currentNode.leftChild : currentNode.rightChild;
+            adjustParent(currentNode, child);
+        }
+    }
+
+    /**
+     * Adjusts the parent node's child reference when removing a node.
+     * 
+     * @param nodeToRemove the node that is being removed
+     * @param childOfRemoved the child of the removed node
+     * @author Anzac Houchen
+     */
+    private void adjustParent(TreeNode nodeToRemove, TreeNode childOfRemoved) {
+        if (nodeToRemove.parent != null) {
+            if (nodeToRemove.parent.leftChild == nodeToRemove) {
+                nodeToRemove.parent.leftChild = childOfRemoved;
+            } else {
+                nodeToRemove.parent.rightChild = childOfRemoved;
+            }
+            if (childOfRemoved != null) {
+                childOfRemoved.parent = nodeToRemove.parent;
+            }
+        } else {
+            root = childOfRemoved; // If the removed node is root
+            if (childOfRemoved != null) {
+                childOfRemoved.parent = null;
+            	}
+            }
+    	}
     }
 
 

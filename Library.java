@@ -369,11 +369,34 @@ public class Library {
                 }
             }
         }else if (line.startsWith("return")) {
-				// TODO: Implement this case.
-				// Format of the line is
-				// return <isbn>
-				// e.g. return ISBN-1234
-				// NOTE: If the book was never checked out, this code should print an error.
+		// Returns ISBN 
+ 		// Outputs if book is not found or if no checked out copies
+		// THrow's Illegal Exceptions to output if book is not found or no checked out copies 
+		// @author Sreyas Kishore
+		// @author sreyas.kishore@gmail.com
+
+    // Split the user's input into the command and ISBN
+     String[] parts = line.split(" ");
+    
+    // Validate the user's input format and outputs invalid if incorrect
+    if (parts.length != 2) {
+        System.out.println("Invalid input. Please use the format: return <isbn>");
+    } else {
+        String isbn = parts[1];
+
+        try {
+            // Calls the returnBook method to return the book
+            library.returnBook(isbn);
+            System.out.println("Book with ISBN " + isbn + " has been returned successfully.");
+        } catch (IllegalArgumentException e) {
+            // Outputs if book is not found
+            System.out.println("Error: " + e.getMessage());
+        } catch (IllegalStateException e) {
+            // Outputs if there are no checked-out copies
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
 			} else if (line.startsWith("list")) {
 				// TODO: Implement this case.
 				// Format of the line is 

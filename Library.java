@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import javax.sound.sampled.Line;
+import java.util.NoSuchElementException;
 
 /**
  * A library management class. Has a simple shell that users can interact with

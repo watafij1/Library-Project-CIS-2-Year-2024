@@ -189,13 +189,55 @@ public class Library {
         throw new UnsupportedOperationException("Book not found with ISBN: " + isbn);
     }
 
-    /**
-     * Saves the contents of this library to the given file.
-     */
-    public void save(String filename) {
-        // TODO: Implement this method.
-        throw new UnsupportedOperationException("not implemented");
+/**
+ * Saves the contents of this library to the given file.
+ *
+ * @param filename the name of the file to save the library data into
+ * @throws IllegalArgumentException if the filename is null or empty
+ * @throws RuntimeException if an error occurs during file writing
+ * @author Ethan Tran
+ * @author ethantran0324@gmail.com
+ */
+public void save(String filename) {
+    // Validate the filename
+    if (filename == null || filename.isEmpty()) {
+        throw new IllegalArgumentException("Filename cannot be null or empty.");
     }
+
+    java.io.File outputFile = new java.io.File(filename); // Create the file object
+
+    java.io.PrintWriter writer = null; // Initialize the writer outside try-catch
+    try {
+        writer = new java.io.PrintWriter(outputFile); // Create the PrintWriter
+
+        // Iterate through the library's linked list
+        UnorderedLinkedList.Node<Book> current = bookList.head; // Access the head of the linked list
+        while (current != null) {
+            Book book = current.data;
+
+            // Format the book data as a comma-separated string
+            String bookData = book.getTitle() + "," +
+                    book.getAuthor() + "," +
+                    book.getIsbn() + "," +
+                    book.getPublicationYear() + "," +
+                    book.getNumberOfCopies();
+
+            // Write the book data to the file
+            writer.println(bookData);
+
+            // Move to the next node in the list
+            current = current.next;
+        }
+        System.out.println("Library saved successfully to " + filename);
+    } catch (java.io.FileNotFoundException e) {
+        throw new RuntimeException("An error occurred while saving the library to file: " + filename, e);
+    } finally {
+        // Ensure the writer is closed to free resources
+        if (writer != null) {
+            writer.close();
+        }
+    }
+}
 
     /**
      * Loads the contents of this library from the given file. All existing data

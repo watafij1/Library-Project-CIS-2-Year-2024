@@ -738,16 +738,23 @@ public void save(String filename) {
     }
 }
 			} else if (line.startsWith("list")) {
-				// TODO: Implement this case.
-				// Format of the line is 
-				// list <isnb>
-				// e.g. list ISBN-1234
-				// NOTE: This code should print out the number of copies in the library and the number of copies available.
-			} else if (line.startsWith("save")) {
-				// TODO: Implement this case.
-				// Format of the line is
-				// save <filename>
-				// e.g. save LbraryFile.dat
+				String isbn = line.substring(5).trim();
+           			if (library.containsKey(isbn)) {
+                	            int[] copies = library.get(isbn);
+                	 	    System.out.println("Total copies: " + copies[0]);
+                		    System.out.println("Available copies: " + copies[1]);
+           		        } else {
+          	      		    System.out.println("ISBN not found in the library.");
+           		        }
+			    } else if (line.startsWith("save")) {
+			        String filename = line.substring(5).trim();
+            			try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+                		     oos.writeObject(library);
+                		     System.out.println("Library data saved to " + filename);
+           			 } catch (Exception e) {
+               			     System.out.println("Error saving file: " + e.getMessage());
+            			}
+        
 			} else if (line.startsWith("load")) {
                 String[] parts = line.split(" ");
                 if (parts.length != 2) {

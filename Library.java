@@ -642,14 +642,31 @@ public void save(String filename) {
             System.out.print("library> ");
             String line = scanner.nextLine();
 
-            // TODO: Implement code 
-            if (line.startsWith("add")) {
-                // TODO: Implement this case.
-                // The format of the line is
-                // add title author isbn publicationYear numberOfCopies
-                // e.g. add Star_Trek Gene_Roddenberry ISBN-1234 1965 10
-                // NOTE: If a book already exists in the library, then the number of copies should be incremented by this amount.
-                // Do appropriate error checking here.
+            /** 
+             * Add title author isbn, pub. year and number of copies 
+             * e.g. add Star_Trek Gene_Roddenberry ISBN-1234 1965 10
+             * @Author Elizabeth Martinez Mendoza 
+             */
+            if (line.startsWith("add")) { 
+                String[] parts = line.split(" "); // split the input 
+                if (parts.length != 6) { // if the input does not have 6 parts, return a error message 
+                    System.out.println("Invalid input Use the format: add <title> <author> <isbn> <publicationYear> <numberOfCopies>");
+                } else {
+                    String title = parts[1];
+                    String author = parts[2];
+                    String isbn = parts[3];
+                    
+                    try {
+                        int publicationYear = Integer.parseInt(parts[4]);
+                        int numberOfCopies = Integer.parseInt(parts[5]);
+                        library.addBook(title, author, isbn, publicationYear, numberOfCopies);
+                        System.out.println("Book added/updated successfully.");
+                    } catch (NumberFormatException e) { // invalid number of copies or pub. year 
+                        System.out.println("Invalid number format for publicationYear or numberOfCopies.");
+                    } catch (Exception e) {// any other excpetions 
+                        System.out.println("Could Not Add Book: " + e.getMessage());
+                    }
+                }
             } else if (line.startsWith("checkout")) { // @Author Elizabeth Martinez Mendoza 
                 try {
                     String[] parts = line.split(" "); // split  the input into 2 parts
@@ -707,63 +724,68 @@ public void save(String filename) {
                 } catch (UnsupportedOperationException e) {
                     System.out.println("Error: " + e.getMessage());
                 }
-            }
-        }else if (line.startsWith("return")) {
-		// Returns ISBN 
- 		// Outputs if book is not found or if no checked out copies
-		// THrow's Illegal Exceptions to output if book is not found or no checked out copies 
-		// @author Sreyas Kishore
-		// @author sreyas.kishore@gmail.com
-
-    // Split the user's input into the command and ISBN
-     String[] parts = line.split(" ");
-    
-    // Validate the user's input format and outputs invalid if incorrect
-    if (parts.length != 2) {
-        System.out.println("Invalid input. Please use the format: return <isbn>");
-    } else {
-        String isbn = parts[1];
-
-        try {
-            // Calls the returnBook method to return the book
-            library.returnBook(isbn);
-            System.out.println("Book with ISBN " + isbn + " has been returned successfully.");
-        } catch (IllegalArgumentException e) {
-            // Outputs if book is not found
-            System.out.println("Error: " + e.getMessage());
-        } catch (IllegalStateException e) {
-            // Outputs if there are no checked-out copies
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-}
-			} else if (line.startsWith("list")) {
-				String isbn = line.substring(5).trim();
-           			if (library.containsKey(isbn)) {
-                	            int[] copies = library.get(isbn);
-                	 	    System.out.println("Total copies: " + copies[0]);
-                		    System.out.println("Available copies: " + copies[1]);
-           		        } else {
-          	      		    System.out.println("ISBN not found in the library.");
-           		        }
-			    } else if (line.startsWith("save")) {
-			        String filename = line.substring(5).trim();
-            			try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-                		     oos.writeObject(library);
-                		     System.out.println("Library data saved to " + filename);
-           			 } catch (Exception e) {
-               			     System.out.println("Error saving file: " + e.getMessage());
-            			}
-        
-			} else if (line.startsWith("load")) {
-                String[] parts = line.split(" ");
-                if (parts.length != 2) {
-                    System.err.println("Invalid input. Use the format 'load <filename>'");
-                } else {
-                    library.load(parts[1]);
-                }
-			} else if (line.startsWith("exit")) {
-				break;
-			}
+            } else if (line.startsWith("return")) {
+                /** 
+                * Returns ISBN 
+                * Outputs if book is not found or if no checked out copies
+                *THrow's Illegal Exceptions to output if book is not found or no checked out copies 
+                * @Author Sreyas Kishore
+                * @author sreyas.kishore@gmail.com
+                */
+		    String[] parts = line.split(" "); // Split the user's input into the command and ISBN
+		    // Validate the user's input format and outputs invalid if incorrect
+		    if (parts.length != 2) {
+			    System.out.println("Invalid input. Please use the format: return <isbn>");
+		    } else {
+			    String isbn = parts[1];
+			    try {
+				    // Calls the returnBook method to return the book
+				    library.returnBook(isbn);
+				    System.out.println("Book with ISBN " + isbn + " has been returned successfully.");
+			    } catch (IllegalArgumentException e) {
+				    // Outputs if book is not found
+				    System.out.println("Error: " + e.getMessage());
+			    } catch (IllegalStateException e) {
+				    // Outputs if there are no checked-out copies
+				    System.out.println("Error: " + e.getMessage());
+			    }
+		    }
+	    } else if (line.startsWith("list")) {
+		    String isbn = line.substring(5).trim();
+		    if (library.containsKey(isbn)) {
+			    int[] copies = library.get(isbn);
+			    System.out.println("Total copies: " + copies[0]);
+			    System.out.println("Available copies: " + copies[1]);
+		    } else {
+			    System.out.println("ISBN not found in the library.");
+		    }
+	    } else if (line.startsWith("save")) {
+		    String filename = line.substring(5).trim();
+		    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+			    oos.writeObject(library);
+			    System.out.println("Library data saved to " + filename);
+		    } catch (Exception e) {
+			    System.out.println("Error saving file: " + e.getMessage());
+		    }
+	    } else if (line.startsWith("load")) {
+		    String[] parts = line.split(" ");
+		    if (parts.length != 2) {
+			    System.err.println("Invalid input. Use the format 'load <filename>'");
+		    } else {
+			    library.load(parts[1]);
+		    }
+		    
+	    } else if (line.startsWith("exit")) { //@Author Elizabeth Martinez Mendoza, exits library asks for confirmation first 
+		    System.out.print("Are you sure you want to exit? (yes/no): ");
+		    String answer = scanner.nextLine().trim().toLowerCase();
+		    if (answer.equals("yes")) {
+			    System.out.println("Exiting the library.");
+		    } else if (answer.equals("no")){
+			    System.out.println("You are still in the library");
+		    } else {
+			    System.out.println("Invalid Answer. Type 'yes' or 'no' to continue");
+		    }
+	    }
+	}
     }
 }

@@ -14,6 +14,9 @@ import java.util.NoSuchElementException;
  */
 public class Library {
 
+    private BinarySearchTree bst = new BinarySearchTree();
+    private UnorderedLinkedList<Book> bookList = new UnorderedLinkedList<>();
+	
     /**
      * Adds a book to the library. If the library already has this book then it
      * adds to the number of copies the library has.
@@ -24,7 +27,11 @@ public class Library {
      * @author Anzac Houchen
      * @author anzac.shelby@gmail.com Print statements are for Debugging.
      */
-    public void addBook(Book book) {
+    public void addBook(String title, String author, String isbn,
+		       int yearPublished, int numberOfCopies) {
+	
+	Book book = new Book(title, author, isbn, yearPublished, numberOfCopies);
+	    
         // Prevent bad data from being added.
         if (book == null) {
             throw new IllegalArgumentException("Book must not be null value.");

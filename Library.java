@@ -301,7 +301,7 @@ public void save(String filename) {
      * @author Anzac Houchen
      * @author anzac.shelby@gmail.com
      */
-    public class UnorderedLinkedList<T> {
+    public class UnorderedLinkedList {
 
         private Node head;
 

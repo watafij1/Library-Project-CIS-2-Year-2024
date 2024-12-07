@@ -90,8 +90,9 @@ public class Library {
             throw new IllegalArgumentException("ISBN cannot be null or empty.");
         }
 
-        // search for the book 
-        Book bookToCheckout = bst.findByISBN(isbn);
+        // search for the book
+	// updated 11.6.24 @author Anzac Houchen to use get method 
+        Book bookToCheckout = bst.get(isbn);
 
         if (bookToCheckout == null) {
             // we dont carry this book in our library
@@ -151,7 +152,7 @@ public class Library {
         }
 
         // Correct inputs redirected towards the UnorderedLinkedList with the list of books.
-        UnorderedLinkedList.Node<Book> current = bookList.head; // Access the head of the linked list
+        UnorderedLinkedList.Node current = bookList.head; // Access the head of the linked list
         while (current != null) {
             Book book = current.data; // Access the book object
             if (book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)) {
@@ -183,7 +184,7 @@ public class Library {
         }
 
         // Search through the library's linked list for the book
-        UnorderedLinkedList.Node<Book> current = bookList.head; // Access the head of the linked list
+        UnorderedLinkedList.Node current = bookList.head; // Access the head of the linked list
         while (current != null) {
             Book book = current.data; // Access the book object
             if (book.getIsbn().equalsIgnoreCase(isbn)) { // Match ISBN (case-insensitive)
@@ -218,7 +219,7 @@ public void save(String filename) {
         writer = new java.io.PrintWriter(outputFile); // Create the PrintWriter
 
         // Iterate through the library's linked list
-        UnorderedLinkedList.Node<Book> current = bookList.head; // Access the head of the linked list
+        UnorderedLinkedList.Node current = bookList.head; // Access the head of the linked list
         while (current != null) {
             Book book = current.data;
 

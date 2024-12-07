@@ -28,11 +28,8 @@ public class Library {
      * @author Anzac Houchen
      * @author anzac.shelby@gmail.com Print statements are for Debugging.
      */
-    public void addBook(String title, String author, String isbn,
-		       int yearPublished, int numberOfCopies) {
+    public void addBook(Book book) {
 	
-	Book book = new Book(title, author, isbn, yearPublished, numberOfCopies);
-	    
         // Prevent bad data from being added.
         if (book == null) {
             throw new IllegalArgumentException("Book must not be null value.");

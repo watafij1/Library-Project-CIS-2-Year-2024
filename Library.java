@@ -54,16 +54,15 @@ public class Library {
             throw new IllegalArgumentException("Number of copies must be 1 or more");
         }
         // Search for the book using binary search tree(not yet implemented)
-        Book alreadyAddedBook = bst.findByISBN(book.getIsbn());
+        Book alreadyAddedBook = bst.get(book.getIsbn());
         if (alreadyAddedBook != null) { // Book is already added
             // Update copies
             alreadyAddedBook.addCopies(book.getNumberOfCopies());
-        } else { // Adding new book not already in Library to linked list
-            Node newNode = new Node(book);
-            newNode.next = head;
-            head = newNode;
-            // Add to binary search tree (not yet implemented)
-            bst.add(book);
+        } else { // Adding new book not already in Libray
+	    // Add to linked list
+	    bookList.add(book);
+	    // Add to binary search tree
+	    bst.put(book.getIsbn(), book);
         }
         // Uncomment to Debug.
         // System.out.println();

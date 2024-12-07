@@ -14,8 +14,9 @@ import java.util.NoSuchElementException;
  */
 public class Library {
 
+    // declare data structures @author Anzac Houchen
     private BinarySearchTree bst = new BinarySearchTree();
-    private UnorderedLinkedList<Book> bookList = new UnorderedLinkedList<>();
+    private UnorderedLinkedList bookList = new UnorderedLinkedList();
 	
     /**
      * Adds a book to the library. If the library already has this book then it
@@ -287,13 +288,13 @@ public void save(String filename) {
      * An unordered linked list class. This list allows for adding elements to
      * the front of the list
      *
-     * @param<T> generic type elements in this list.
+     * No parameter. Generics not needed.
      * @author Anzac Houchen
      * @author anzac.shelby@gmail.com
      */
     public class UnorderedLinkedList<T> {
 
-        private Node<T> head;
+        private Node head;
 
         /**
          * Constructor. Creates empty list.
@@ -308,12 +309,12 @@ public void save(String filename) {
         /**
          * Adds a Node to the front of the list.
          *
-         * @param data A book or other element
+         * @param data A book 
          * @author Anzac Houchen
          * @author anzac.shelby@gmail.com
          */
-        public void add(T data) {
-            Node<T> newNode = new Node<>(data);
+        public void add(Book data) {
+            Node newNode = new Node(data);
             newNode.next = head;
             head = newNode;
         }
@@ -321,13 +322,13 @@ public void save(String filename) {
         /**
          * Inner inner class to create nodes for list.
          *
-         * @param <T> data stored in the node ie. book
+         * Generics not used here.
          * @author Anzac Houchen
          * @author anzac.shelby@gmail.com
          */
         private class Node {
 
-            T data;
+            Book data;
             Node next;
 
             /**
@@ -337,7 +338,7 @@ public void save(String filename) {
              * @author Anzac Houchen
              * @author anzac.shelby@gmail.com
              */
-            public Node(T data) {
+            public Node(Book data) {
                 this.data = data;
                 this.next = null;
             }

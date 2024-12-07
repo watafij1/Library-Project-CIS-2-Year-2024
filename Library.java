@@ -61,13 +61,25 @@ public class Library {
 	    // Add to binary search tree
 	    bst.put(book.getIsbn(), book);
         }
-        // Uncomment to Debug.
-        // System.out.println();
-        // System.out.println(book.getNumberOfCopies());
-        // System.out.print(" copies of " + book.getTitle());
-        // System.out.print(" were added. Total copies now ");
-        // System.out.print(alreadyAddedBook.getNumberOfCopies() + ".");
-        // System.out.println("ISBN: " + book.getIsbn());
+    }
+	
+    /**
+     * Adds a new book to the library using individual parameters
+     * @param title String title
+     * @param author String author
+     * @param isbn String isbn indiviual id number
+     * @param yearPublished int year published
+     * @param numberOfCopies total number libary owns
+     * @thows IllegalArgumentException if any parametes are empty or null
+     */
+    public void addBook(String title, String author, String isbn,
+    int yearPublished, int numberOfCopies) {
+        // Create new book object using provided parameters
+        Book newBook = new Book(title, author, isbn, yearPublished,
+        numberOfCopies);
+
+        // Call to the existing addBook method
+        addBook(newBook);
     }
 
     /**

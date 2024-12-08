@@ -5,7 +5,8 @@ import java.io.ObjectOutputStream;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 /**
- * A library management class. Has a simple shell that users can interact with to add/remove/checkout/list books in the library.
+ * A library management class. Has a simple shell that users can interact with to 
+ * add/remove/checkout/list books in the library.
  * Also allows saving the library state to a file and reloading it from the file.
  */
 
@@ -18,7 +19,8 @@ public class Library {
 
 
     public Library() {
-        this.BookList = new UnorderedLinkedList<Book>(); // creats a new empty linkedlist to hold book objects
+        // Creates a new empty linkedlist to hold book objects
+        this.BookList = new UnorderedLinkedList<Book>();
     }
     public UnorderedLinkedList<Book> getBookList() { // provides acess to BookList 
         return BookList;
@@ -63,7 +65,8 @@ public class Library {
             alreadyAddedBook.addCopies(book.getNumberOfCopies());
         } else { // Adding new book not already in Library to linked list
             bst.add(book.getIsbn(),book);
-            BookList.add(book); // added to make sure we are adding to the list and the tree
+            BookList.add(book); // added to make sure we are 
+                                // adding to the list and the tree
         }
     }
         
@@ -91,17 +94,21 @@ public class Library {
 
         if (bookToCheckout == null) {
             // we dont carry this book in our library
-            throw new IllegalArgumentException(" We dont carry the book with ISBN " + isbn + " .");
+            throw new IllegalArgumentException(" We dont carry the book with ISBN " 
+            + isbn + " .");
         }
 
         // checking if we have enough copies avaliable. 
         if (bst.numberOfCopiesAvailable(isbn,0) <= 0) {
-            throw new IllegalArgumentException("No copies of the book with ISBN " + isbn + " are available for checkout.");
+            throw new IllegalArgumentException("No copies of the book with ISBN " 
+            + isbn + " are available for checkout.");
         }
 
         // checkout the book, reduce the number of copies 
-        bst.numberOfCopiesAvailable(isbn, -1);// decrease copies by 1 // this needs to change the number of copies avaible in the branch 
-        System.out.println("Successfully checked out: " + bookToCheckout.getTitle() + " by " + bookToCheckout.getAuthor());
+        bst.numberOfCopiesAvailable(isbn, -1);// decrease copies by 1 
+        // this needs to change the number of copies avaible in the branch 
+        System.out.println("Successfully checked out: " + bookToCheckout.getTitle() 
+        + " by " + bookToCheckout.getAuthor());
 
     }
 
@@ -109,24 +116,31 @@ public class Library {
     /**
      * Returns a book to the library
      * @ Orginal Author Please Fill
-     * @Edited By Elizabeth Martinez Mendoza changed the logic we were using differntaining 
-     * numberofCopies vs numberofcopies Avaliable. Code formating is orginal to @Orignal Author 
+     * @Edited By Elizabeth Martinez Mendoza changed the logic we were using 
+     * differntaining numberofCopies vs numberofcopies Avaliable. Code 
+     * formating is orginal to @Orignal Author 
      */
     public void returnBook(String isbn) {
         Book book = getBst().get(isbn);
 
         if (book == null) {
-            throw new IllegalArgumentException("Book with ISBN " + isbn + " does not exist.");
+            throw new IllegalArgumentException("Book with ISBN " + isbn 
+            + " does not exist.");
         }
 
-        int checkedOutCopies = book.getNumberOfCopies() - bst.numberOfCopiesAvailable(isbn,0);
+        int checkedOutCopies = 
+        book.getNumberOfCopies() - bst.numberOfCopiesAvailable(isbn,0);
 
         if (checkedOutCopies > 0) { ///
             bst.numberOfCopiesAvailable(isbn, 1);
-            System.out.println("Book with ISBN " + isbn + " has been successfully returned. Available copies: " + bst.numberOfCopiesAvailable(isbn,0));
+            System.out.println("Book with ISBN " + isbn 
+            + " has been successfully returned. Available copies: " + 
+            bst.numberOfCopiesAvailable(isbn,0));
             
         } else {
-            throw new IllegalStateException("No checked-out copies of the book with ISBN " + isbn + " to return.");
+            throw new 
+            IllegalStateException("No checked-out copies of the book with ISBN " 
+            + isbn + " to return.");
         }
     }
 
@@ -147,7 +161,8 @@ public class Library {
      */
 
     public Book findByTitleAndAuthor(String title, String author) {
-        // If statements validate the user's input to the program and returns appropriate exceptions.
+        // If statements validate the user's input to the program and returns 
+        // appropriate exceptions.
         if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("Title cannot be null or empty.");
         }
@@ -155,18 +170,23 @@ public class Library {
             throw new IllegalArgumentException("Author cannot be null or empty.");
         }
         
-        // Correct inputs redirected towards the UnorderedLinkedList with the list of books.
-        UnorderedLinkedList<Book>.Node<Book> current = BookList.getHead(); // Access the head of the linked list
+        // Correct inputs redirected towards the UnorderedLinkedList with the list of 
+        // books.
+        // Access the head of the linked list.
+        UnorderedLinkedList<Book>.Node<Book> current = BookList.getHead(); 
         while (current != null) {
             Book book = current.data; // Access the book object
-            if (book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)) {
-                return book; // Returns or outputs book if a match with author or title is found.
+            if (book.getTitle().equalsIgnoreCase(title) && 
+            book.getAuthor().equalsIgnoreCase(author)) {
+                return book; // Returns or outputs book if a match with 
+                // author or title is found.
             }
             current = current.next; // Move to the next node
         }
 
         // If no match is found with the user's input, throw exception. 
-        throw new UnsupportedOperationException("Book not found: Title = " + title + ", Author = " + author);
+        throw new UnsupportedOperationException("Book not found: Title = " 
+        + title + ", Author = " + author);
     }
 
     /**
@@ -188,11 +208,13 @@ public class Library {
         }
 
         // Search through the library's linked list for the book
-        UnorderedLinkedList<Book>.Node<Book> current = BookList.getHead(); // Access the head of the linked list
+        // Access the head of the linked list
+        UnorderedLinkedList<Book>.Node<Book> current = BookList.getHead();
         while (current != null) {
             Book book = current.data; // Access the book object
             if (book.getIsbn().equalsIgnoreCase(isbn)) { // Match ISBN (case-insensitive)
-                System.out.println("Book found:" + book.getTitle() + " by " + book.getAuthor());
+                System.out.println("Book found:" + book.getTitle() + " by " 
+                + book.getAuthor());
                 return book; // Book found
             }
             current = current.next; // Move to the next node
@@ -221,7 +243,8 @@ public class Library {
         try {
             writer = new java.io.PrintWriter(outputFile); // Create the PrintWriter
             // Iterate through the library's linked list
-            UnorderedLinkedList<Book>.Node<Book> current = BookList.getHead(); // Access the head of the linked list
+            // Access the head of the linked list
+            UnorderedLinkedList<Book>.Node<Book> current = BookList.getHead();
             while (current != null) {
                 Book book = current.data;
                 // Format the book data as a comma-separated string
@@ -237,7 +260,9 @@ public class Library {
             }
             System.out.println("Library saved successfully to " + filename);
         } catch (java.io.FileNotFoundException e) {
-            throw new RuntimeException("An error occurred while saving the library to file: " + filename, e);
+            throw new 
+            RuntimeException("An error occurred while saving the library to file: " 
+            + filename, e);
         } finally {
             // Ensure the writer is closed to free resources
             if (writer != null) {
@@ -268,7 +293,9 @@ public class Library {
                  * Assume the different book info is seperated by commas
                  */
                 String[] bookArray = content.split(",");
-                System.out.println("Adding Book. Title: %s, Author: %s, ISBN: %s, Publication Year: %d, Copies: %d");
+                System.out.println
+                ("Adding Book. Title: %s, Author: %s, ISBN: %s, Publication ");
+                System.out.print("Year: %d, Copies: %d");
                 Book newBook = new Book(bookArray[0], bookArray[1], bookArray[2],
                 Integer.parseInt(bookArray[3]), Integer.parseInt(bookArray[4]));
                 addBook(newBook);
@@ -296,8 +323,11 @@ public class Library {
              */
             if (line.startsWith("add")) {
                 String[] parts = line.split(" "); // split the input 
-                if (parts.length != 6) { // if the input does not have 6 parts, return a error message 
-                    System.out.println("Invalid input Use the format: add <title> <author> <isbn> <publicationYear> <numberOfCopies>");
+                if (parts.length != 6) { // if the input does not have 6 
+                    // parts, return a error message 
+                    System.out.println
+                    ("Invalid input Use the format: add <title> <author> <isbn> ");
+                    System.out.print("<publicationYear> <numberOfCopies>");
                 } else {
                     String title = parts[1];
                     String author = parts[2];
@@ -306,14 +336,19 @@ public class Library {
                     try {
                         int publicationYear = Integer.parseInt(parts[4]);
                         int numberOfCopies = Integer.parseInt(parts[5]);
-                        // Correct the addBook method call by creating a Book object first
-                        Book book = new Book(title, author, isbn, publicationYear, numberOfCopies);
+                        // Correct the addBook method call by creating a Book 
+                        // object first
+                        Book book = new 
+                        Book(title, author, isbn, publicationYear, numberOfCopies);
                         library.addBook(book);
 
-                        ///library.addBook(title, author, isbn, publicationYear, numberOfCopies);
+                        ///library.addBook(title, author, isbn, publicationYear, 
+                        /// numberOfCopies);
                         System.out.println("Book added/updated successfully.");
-                    } catch (NumberFormatException e) { // invalid number of copies or pub. year 
-                        System.out.println("Invalid number format for publicationYear or numberOfCopies.");
+                    } catch (NumberFormatException e) { // invalid number of copies or 
+                        // pub. year 
+                        System.out.println
+                        ("Invalid number format for publicationYear or numberOfCopies.");
                     } catch (Exception e) {// any other excpetions 
                         System.out.println("Could Not Add Book: " + e.getMessage());
                     }
@@ -327,13 +362,15 @@ public class Library {
                         String isbn = parts[1]; // if correct ussage then use the ISBN portion
                         try {
                             library.checkout(isbn); // find the book via findByISBN
-                            System.out.println("Book with ISBN " + isbn + " checked out successfully."); // if successful, this message 
+                            // if successful, this message
+                            System.out.println("Book with ISBN " + isbn + " checked out successfully.");
                         } catch (IllegalArgumentException e) {
                             System.out.println(e.getMessage()); // handles invalid ISBNs
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("An unexpected error occurred: " + e.getMessage()); // other errors that might occur 
+                    // other errors that might occur
+                    System.out.println("An unexpected error occurred: " + e.getMessage());
                 } 
             } else if (line.startsWith("findByTitleAndAuthor")) {
                 // Brackets are off with this, fix by writing into this file and not copy and pasting. 
@@ -493,14 +530,16 @@ public class Library {
                 if (currentNode.leftChild != null) {
                     put(key, value, currentNode.leftChild);
                 } else {
-                    currentNode.leftChild = new TreeNode(key, value, value.getNumberOfCopies(), currentNode);
+                    currentNode.leftChild = new TreeNode(key, value, value.getNumberOfCopies(), 
+                    currentNode);
                     size++;
                 }
             } else if (cmp > 0) {
                 if (currentNode.rightChild != null) {
                     put(key, value, currentNode.rightChild);
                 } else {
-                    currentNode.rightChild = new TreeNode(key, value, value.getNumberOfCopies(), currentNode);
+                    currentNode.rightChild = new TreeNode(key, value, value.getNumberOfCopies(), 
+                    currentNode);
                     size++;
                 }
             } else {
@@ -612,7 +651,8 @@ public class Library {
                 currentNode.value = successor.value;
                 removeNode(successor);
             } else {
-                TreeNode child = (currentNode.leftChild != null) ? currentNode.leftChild : currentNode.rightChild;
+                TreeNode child = (currentNode.leftChild != null) ? 
+                currentNode.leftChild : currentNode.rightChild;
                 adjustParent(currentNode, child);
             }
         }

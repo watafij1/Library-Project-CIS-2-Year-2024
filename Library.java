@@ -28,14 +28,21 @@ public class Library {
     
     
     /**
-     * Adds a book to the library. If the library already has this book then it
-     * adds to the number of copies the library has.
+     * Adds a book to the library by adding it to the binary search tree and the linked
+     * list. If the library already has this book 
+     * in the binary search tree then it
+     * adds to the number of copies the library has. If the book updates the number of 
+     * copies in the bst the book is not added again to the linked list but assumed to
+     * already be there from the first time it must have been added.
      *
      * @throws IllegalArgumentException no parts of book object can be empty or
      * null
      * @param book a book object to be added
      * @author Anzac Houchen
      * @author anzac.shelby@gmail.com Print statements are for Debugging.
+     * @bigO O(log n) for searching the bst
+     * @bigO O(1) for adding to the linked list
+     * @bigO analysis added by @author Anzac Houchen 
      */
     public void addBook(Book book) {
         // Prevent bad data from being added.
@@ -83,6 +90,8 @@ public class Library {
      * @throws IllegalArgumentException if there are no available copies of the
      * book to check out
      * @Author Elizabeth Martinez Mendoza
+     * @bigO O(log n) for searching for a book in the bst.
+     * @bigO analysis added by @author Anzac Houchen 
      */
     public void checkout(String isbn) {
         if (isbn == null || isbn.isEmpty()) {
@@ -119,6 +128,11 @@ public class Library {
      * @Edited By Elizabeth Martinez Mendoza changed the logic we were using 
      * differntaining numberofCopies vs numberofcopies Avaliable. Code 
      * formating is orginal to @Orignal Author 
+     * @param isbn string isbn to find book in bst
+     * @throws IllegalArgumentException if the book does not exist
+     * @thows IllegalStateException if none of the copies are check out
+     * @bigO O(log n) for searching the bst
+     * @bigO @param @throws @throws added by @author Anzac Houchen 
      */
     public void returnBook(String isbn) {
         Book book = getBst().get(isbn);
@@ -158,6 +172,8 @@ public class Library {
      * input
      * @author Sreyas Kishore
      * @author sreyas.kishore@gmail.com
+     * @bigO O(n) searching linked list for isbn
+     * @bigO analysis added by @author Anzac Houchen 
      */
 
     public Book findByTitleAndAuthor(String title, String author) {
@@ -180,7 +196,7 @@ public class Library {
             book.getAuthor().equalsIgnoreCase(author)) {
                 return book; // Returns or outputs book if a match with 
                 // author or title is found.
-            }
+            } 
             current = current.next; // Move to the next node
         }
 

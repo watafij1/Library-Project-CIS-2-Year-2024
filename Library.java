@@ -11,7 +11,6 @@ import java.util.Scanner;
  * to add/remove/checkout/list books in the library. Also allows saving the
  * library state to a file and reloading it from the file.
  */
-
 public class Library {
 
     private BST bst = new BST();
@@ -205,41 +204,41 @@ public class Library {
                 + title + ", Author = " + author);
     }
 
-/**
- * Finds a book in the library by its ISBN using the BST.
- *
- * @param isbn the ISBN of the book to find
- * @return the book object if found
- * @throws IllegalArgumentException if the provided ISBN is null or empty
- * @throws NoSuchElementException if no book with the given ISBN is found
- * 
- * @author Ethan Tran
- * @author ethantran0324@gmail.com
- * 
- * Big O analysis:
- * The time complexity is O(log n) because the method searches for the book in the BST,
- * which has a logarithmic search time in the best case and average scenarios. 
- * 
- * The space complexity is O(1) because no additional space is used aside from variables
- * to store the book reference.
- */
-public Book findByISBN(String isbn) {
-    // Validate input
-    if (isbn == null || isbn.isEmpty()) {
-        throw new IllegalArgumentException("ISBN cannot be null or empty.");
+    /**
+     * Finds a book in the library by its ISBN using the BST.
+     *
+     * @param isbn the ISBN of the book to find
+     * @return the book object if found
+     * @throws IllegalArgumentException if the provided ISBN is null or empty
+     * @throws NoSuchElementException if no book with the given ISBN is found
+     *
+     * @author Ethan Tran
+     * @author ethantran0324@gmail.com
+     *
+     * Big O analysis: The time complexity is O(log n) because the method
+     * searches for the book in the BST, which has a logarithmic search time in
+     * the best case and average scenarios.
+     *
+     * The space complexity is O(1) because no additional space is used aside
+     * from variables to store the book reference.
+     */
+    public Book findByISBN(String isbn) {
+        // Validate input
+        if (isbn == null || isbn.isEmpty()) {
+            throw new IllegalArgumentException("ISBN cannot be null or empty.");
+        }
+
+        // Search for the book in the BST
+        Book book = bst.get(isbn);
+
+        // If no book is found, throw an exception
+        if (book == null) {
+            throw new NoSuchElementException("Book not found with ISBN: " + isbn);
+        }
+
+        System.out.println("Book found: " + book.getTitle() + " by " + book.getAuthor());
+        return book; // Return the book
     }
-
-    // Search for the book in the BST
-    Book book = bst.get(isbn);
-
-    // If no book is found, throw an exception
-    if (book == null) {
-        throw new NoSuchElementException("Book not found with ISBN: " + isbn);
-    }
-
-    System.out.println("Book found: " + book.getTitle() + " by " + book.getAuthor());
-    return book; // Return the book
-}
 
     /**
      * Saves the contents of this library to the given file.
@@ -427,12 +426,13 @@ public Book findByISBN(String isbn) {
                         System.out.println("Error: " + e.getMessage());
                     }
                 }
-            /**
-             * @author Rania
-             * @author Diya Prasanth (rewrote most of the else if to account for errors)
-             * This code should print out the number of copies in the library and the number of copies available.
-             */
-            } else if (line.startsWith("list")) { 
+                /**
+                 * @author Rania
+                 * @author Diya Prasanth (rewrote most of the else if to account
+                 * for errors) This code should print out the number of copies
+                 * in the library and the number of copies available.
+                 */
+            } else if (line.startsWith("list")) {
                 try {
                     String[] parts = line.split(" "); // split  the input into 2 parts
                     if (parts.length != 2) { // if the input does not have 2 parts, return a error message 
@@ -446,7 +446,7 @@ public Book findByISBN(String isbn) {
                     }
                 } catch (Exception e) {
                     // other errors that might occur
-                    System.out.println("An unexpected error occurred: " + e.getMessage());      
+                    System.out.println("An unexpected error occurred: " + e.getMessage());
                 }
 
             } else if (line.startsWith("save")) {
@@ -654,8 +654,8 @@ public Book findByISBN(String isbn) {
         }
 
         /**
-         * @author Diya Prasanth
-         * Return number of available copies in the library
+         * @author Diya Prasanth Return number of available copies in the
+         * library
          * @param key
          */
         public int getNumOfCopiesAvailable(String key) {
@@ -663,7 +663,7 @@ public Book findByISBN(String isbn) {
             if (node != null) {
                 return node.numberOfCopiesAvailable;
             } else {
-                return 0; 
+                return 0;
             }
         }
 

@@ -462,6 +462,7 @@ public class Library {
                 String answer = scanner.nextLine().trim().toLowerCase();
                 if (answer.equals("yes")) {
                     System.out.println("Exiting the library.");
+                    System.exit(0);
                 } else if (answer.equals("no")) {
                     System.out.println("You are still in the library");
                 } else {

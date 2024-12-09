@@ -300,10 +300,20 @@ public void save(String filename) {
      * @throws FileNotFoundException if the provided filename is invalid
      * @throws NumberFormatException if publication year or number of copies are
      * invalid
+     * 
+     * We read entries from the file which is only 1 operation, and for
+     * each line in the file, addBook is called As addBook is a O(logn)
+     * operation performed n times, the load function wil be O(nlogn)
      */
     public void load(String filename) {
         /**
-         * TBD: clear bst/linked list
+         * Clear the binary search tree and linked list
+         */
+        BookList = new UnorderedLinkedList<Book>();
+        bst = new BST();
+
+        /**
+         * Load the information from the file
          */
         File fIn = new File(filename);
         try (Scanner inputFile = new Scanner(fIn)) {

@@ -427,16 +427,28 @@ public Book findByISBN(String isbn) {
                         System.out.println("Error: " + e.getMessage());
                     }
                 }
-            } else if (line.startsWith("list")) { // this needs to be fixed? tested 
-                /*String isbn = line.substring(5).trim();
-                if (library.containsKey(isbn)) { // error on this line // cant find symbol 
-                    int[] copies = library.get(isbn);//cannot find symbol error on this line 
-                    System.out.println("Total copies: " + copies[0]);
-                    System.out.println("Available copies: " + copies[1]);
-                } else {
-                    System.out.println("ISBN not found in the library.");
+            /**
+             * @author Rania
+             * @author Diya Prasanth (rewrote most of the else if to account for errors)
+             * This code should print out the number of copies in the library and the number of copies available.
+             */
+            } else if (line.startsWith("list")) { 
+                try {
+                    String[] parts = line.split(" "); // split  the input into 2 parts
+                    if (parts.length != 2) { // if the input does not have 2 parts, return a error message 
+                        System.out.println("Invalid input. Please use the format: list <isbn>");
+                    } else {
+                        String isbn = parts[1]; // if correct ussage then use the ISBN portion
+                        Book book = library.bst.get(isbn);
+                        if (book != null) {
+                            System.out.println("ISBN: " + isbn + ", Number of Copies: " + book.numberOfCopies);
+                        }
+                    }
+                } catch (Exception e) {
+                    // other errors that might occur
+                    System.out.println("An unexpected error occurred: " + e.getMessage());      
                 }
-                 */
+
             } else if (line.startsWith("save")) {
                 String filename = line.substring(5).trim();
                 try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {

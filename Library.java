@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.io.IOException;
 
 /**
  * A library management class. Has a simple shell that users can interact with
@@ -474,13 +475,37 @@ public class Library {
                 }
 
             } else if (line.startsWith("save")) {
-                String filename = line.substring(5).trim();
-                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-                    oos.writeObject(library);
-                    System.out.println("Library data saved to " + filename);
-                } catch (Exception e) {
-                    System.out.println("Error saving file: " + e.getMessage());
+                // @author Anzac Houchen fix save bug
+                // Check if command line entry save has less than 5 char
+                if (line.length() <= 5) {
+                    System.err.println("Invalid input." +
+                    " Use the format: save <filename>");
                 }
+                else {
+                String filename = line.substring(5).trim();
+                    if (filename.isEmpty()) {
+                        System.err.println("Invalid filename. " +
+                        "Please provide valid filename.");
+                    }
+                    else {             
+                        try (ObjectOutputStream oos = new 
+                            ObjectOutputStream(new FileOutputStream(filename))) {
+                            oos.writeObject(library);
+                            System.out.println("Library data saved to " + filename);
+                        } 
+                        catch (FileNotFoundException ex) {
+                            System.err.println("Error: File not found - " + 
+                            ex.getMessage());
+                        }
+                        catch (IOException ex) {
+                            System.err.println("Error saving file: " + 
+                            ex.getMessage());
+                        }
+                        catch (Exception ex) {
+                            System.err.println("Unexpected error occured: " + ex.getMessage());
+                        }
+                    }
+                }// @author Anzac Houchen fix save bug ^^^^^^^^^^^^^
             } else if (line.startsWith("load")) {
                 String[] parts = line.split(" ");
                 if (parts.length != 2) {

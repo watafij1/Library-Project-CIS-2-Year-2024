@@ -205,46 +205,41 @@ public class Library {
                 + title + ", Author = " + author);
     }
 
-    /**
-     * Finds a book in the library by its ISBN.
-     *
-     * @param isbn the ISBN of the book to find
-     * @return the book object if found, or null if no book matches the given
-     * ISBN
-     * @throws IllegalArgumentException if the provided ISBN is null or empty
-     * @throws UnsupportedOperationException if no book with the given ISBN is
-     * found
-     * @author Ethan Tran
-     * @author ethantran0324@gmail.com
-     *
-     * Big O analysis: The time complexity is O(n) because the method iterates
-     * through the linked list, comparing each book's ISBN. In the worst case,
-     * it traverses the entire list if the book is not found or is at the end.
-     *
-     * The space complexity is O(1) because no additional space is used aside
-     * from variables to store the current node and book data.
-     */
-    public Book findByISBN(String isbn) {
-        // Validate input
-        if (isbn == null || isbn.isEmpty()) {
-            throw new IllegalArgumentException("ISBN cannot be null or empty.");
-        }
-
-        // Search through the library's linked list for the book
-        // Access the head of the linked list
-        UnorderedLinkedList<Book>.Node<Book> current = BookList.getHead();
-        while (current != null) {
-            Book book = current.data; // Access the book object
-            if (book.getIsbn().equalsIgnoreCase(isbn)) { // Match ISBN (case-insensitive)
-                System.out.println("Book found: " + book.getTitle() + " by " + book.getAuthor());
-                return book; // Book found
-            }
-            current = current.next; // Move to the next node
-        }
-
-        // If no book is found, throw an exception
-        throw new UnsupportedOperationException("Book not found with ISBN: " + isbn);
+/**
+ * Finds a book in the library by its ISBN using the BST.
+ *
+ * @param isbn the ISBN of the book to find
+ * @return the book object if found
+ * @throws IllegalArgumentException if the provided ISBN is null or empty
+ * @throws NoSuchElementException if no book with the given ISBN is found
+ * 
+ * @author Ethan Tran
+ * @author ethantran0324@gmail.com
+ * 
+ * Big O analysis:
+ * The time complexity is O(log n) because the method searches for the book in the BST,
+ * which has a logarithmic search time in the best case and average scenarios. 
+ * 
+ * The space complexity is O(1) because no additional space is used aside from variables
+ * to store the book reference.
+ */
+public Book findByISBN(String isbn) {
+    // Validate input
+    if (isbn == null || isbn.isEmpty()) {
+        throw new IllegalArgumentException("ISBN cannot be null or empty.");
     }
+
+    // Search for the book in the BST
+    Book book = bst.get(isbn);
+
+    // If no book is found, throw an exception
+    if (book == null) {
+        throw new NoSuchElementException("Book not found with ISBN: " + isbn);
+    }
+
+    System.out.println("Book found: " + book.getTitle() + " by " + book.getAuthor());
+    return book; // Return the book
+}
 
     /**
      * Saves the contents of this library to the given file.

@@ -354,8 +354,7 @@ public class Library {
                 String[] parts = line.split(" "); // split the input 
                 if (parts.length != 6) { // if the input does not have 6 
                     // parts, return a error message 
-                    System.out.println("Invalid input Use the format: add <title> <author> <isbn> ");
-                    System.out.print("<publicationYear> <numberOfCopies>");
+                    System.out.println("Invalid input Use the format: add <title> <author> <isbn> <publicationYear> <numberOfCopies>. Ex: add WhereTheRedFernGrows WilsonRawls 780395775288 1961 5");
                 } else {
                     String title = parts[1];
                     String author = parts[2];
@@ -383,7 +382,7 @@ public class Library {
                 try {
                     String[] parts = line.split(" "); // split  the input into 2 parts
                     if (parts.length != 2) { // if the input does not have 2 parts, return a error message 
-                        System.out.println("Invalid input. Please use the format: checkout <isbn>");
+                        System.out.println("Invalid input. Please use the format: checkout <isbn>. Ex: checkout 000000000000");
                     } else {
                         String isbn = parts[1]; // if correct ussage then use the ISBN portion
                         try {
@@ -642,6 +641,14 @@ public class Library {
                 this.parent = parent;
             }
         }
+
+        /**
+         * @Author Elizabeth Martinez Mendoza 
+         * Updates the number of available copies of a book in a binary search tree (BST)
+         * @param key identifier of the book
+         * @param change the change of copies ex, 1, 2...
+         * @return updated nunmber of copies 
+        */
 
         public int numberOfCopiesAvailable(String key, int change) {
             TreeNode node = bst.get(key, root); // Get the TreeNode containing the Book

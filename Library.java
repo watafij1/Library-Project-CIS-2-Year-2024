@@ -457,7 +457,7 @@ public class Library {
                 } else {
                     library.load(parts[1]);
                 }
-            } else if (line.startsWith("exit")) {
+            } else if (line.startsWith("exit")) { //@Author Elizabeth Martinez Mendoza 
                 System.out.print("Are you sure you want to exit? (yes/no): ");
                 String answer = scanner.nextLine().trim().toLowerCase();
                 if (answer.equals("yes")) {

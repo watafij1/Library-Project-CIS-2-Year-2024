@@ -315,18 +315,28 @@ public class Library {
          */
         File fIn = new File(filename);
         try (Scanner inputFile = new Scanner(fIn)) {
+            int loadedBooks = 0;
+            int failedBooks = 0;
             while (inputFile.hasNextLine()) {
                 String content = inputFile.nextLine();
                 /**
                  * Assume the different book info is seperated by commas
                  */
                 String[] bookArray = content.split(",");
-                System.out.println("Adding Book. Title: %s, Author: %s, ISBN: %s, Publication ");
-                System.out.print("Year: %d, Copies: %d");
+                System.out.printf("Adding Book. Title: %s, Author: %s, ISBN: %s, Publication Year: %d, Copies: %d%n",
+                        bookArray[0].replaceAll(" ", ""), bookArray[1].replaceAll(" ", ""), bookArray[2], Integer.parseInt(bookArray[3]), Integer.parseInt(bookArray[4]));
                 Book newBook = new Book(bookArray[0], bookArray[1], bookArray[2],
                         Integer.parseInt(bookArray[3]), Integer.parseInt(bookArray[4]));
-                addBook(newBook);
+                try {
+                    addBook(newBook);
+                    loadedBooks++;
+                } catch (IllegalArgumentException e) {
+                    failedBooks++;
+                }
             }
+            System.out.println("Load completed. Total books processed: " + (loadedBooks + failedBooks));
+            System.out.println("Books successfully loaded: " + loadedBooks);
+            System.out.println("Books failed to load: " + failedBooks);
         } catch (FileNotFoundException e) {
             /**
              * File exception: Input file was not found. Return error.
@@ -556,6 +566,7 @@ public class Library {
                 this.data = data;  // Initialize the node with the provided data
                 this.next = null;  // By default, the next reference is null
             }
+
         }
     }
 
@@ -658,13 +669,12 @@ public class Library {
         }
 
         /**
-         * @Author Elizabeth Martinez Mendoza 
-         * Updates the number of available copies of a book in a binary search tree (BST)
+         * @Author Elizabeth Martinez Mendoza Updates the number of available
+         * copies of a book in a binary search tree (BST)
          * @param key identifier of the book
          * @param change the change of copies ex, 1, 2...
-         * @return updated nunmber of copies 
-        */
-
+         * @return updated nunmber of copies
+         */
         public int numberOfCopiesAvailable(String key, int change) {
             TreeNode node = bst.get(key, root); // Get the TreeNode containing the Book
             if (node != null) {

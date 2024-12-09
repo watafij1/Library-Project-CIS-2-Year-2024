@@ -216,10 +216,8 @@ public class Library {
  * @author ethantran0324@gmail.com
  * 
  * Big O analysis: 
- *  The time complexity is O(n) because the method iterates through the linked list, comparing each book's ISBN.
- *   In the worst case, it traverses the entire list if the book is not found or is at the end.
- * 
- *  The space complexity is O(1) because no additional space is used aside from variables to store the current node and book data.
+ *  The time complexity is O(log n) for a balanced BST because the method performs a binary search.
+ *  The space complexity is O(1) as no additional data structures are used.
  */
 public Book findByISBN(String isbn) {
     // Validate input
@@ -227,16 +225,11 @@ public Book findByISBN(String isbn) {
         throw new IllegalArgumentException("ISBN cannot be null or empty.");
     }
 
-    // Search through the library's linked list for the book
-    // Access the head of the linked list
-    UnorderedLinkedList<Book>.Node<Book> current = BookList.getHead();
-    while (current != null) {
-        Book book = current.data; // Access the book object
-        if (book.getIsbn().equalsIgnoreCase(isbn)) { // Match ISBN (case-insensitive)
-            System.out.println("Book found: " + book.getTitle() + " by " + book.getAuthor());
-            return book; // Book found
-        }
-        current = current.next; // Move to the next node
+    // Search through the BST for the book
+    Book book = bst.get(isbn);
+    if (book != null) {
+        System.out.println("Book found: " + book.getTitle() + " by " + book.getAuthor());
+        return book;
     }
 
     // If no book is found, throw an exception

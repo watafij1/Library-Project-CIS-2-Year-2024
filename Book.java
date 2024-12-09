@@ -15,6 +15,7 @@ public class Book {
     // number of copies in the library
     // NOTE: This is not the number of copies available in the library
     int numberOfCopies;
+    int numOfCopiesInLibrary;
 
     /**
      * Constructor. Most properties (except number of copies are read only)
@@ -25,6 +26,7 @@ public class Book {
         this.isbn = isbn;
         this.publicationYear = publicationYear;
         this.numberOfCopies = numberOfCopies;
+        this.numOfCopiesInLibrary = numberOfCopies;
     }
 
     /**

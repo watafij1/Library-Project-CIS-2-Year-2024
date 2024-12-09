@@ -441,7 +441,7 @@ public Book findByISBN(String isbn) {
                         String isbn = parts[1]; // if correct ussage then use the ISBN portion
                         Book book = library.bst.get(isbn);
                         if (book != null) {
-                            System.out.println("ISBN: " + isbn + ", Number of Copies: " + book.numberOfCopies);
+                            System.out.println("ISBN: " + isbn + ", Copies in the Library: " + book.numberOfCopies + ", Copies Currently Available:" + library.bst.getNumOfCopiesAvailable(isbn));
                         }
                     }
                 } catch (Exception e) {
@@ -624,6 +624,7 @@ public Book findByISBN(String isbn) {
 
             String key;
             Book value;
+            int numOfCopiesInLibrary;
             int numberOfCopiesAvailable;
             TreeNode leftChild;
             TreeNode rightChild;
@@ -636,6 +637,7 @@ public Book findByISBN(String isbn) {
             TreeNode(String key, Book value, int numberOfCopies, TreeNode parent) {
                 this.key = key;
                 this.value = value;
+                this.numOfCopiesInLibrary = numberOfCopies;
                 this.numberOfCopiesAvailable = numberOfCopies;
                 this.parent = parent;
             }
@@ -648,6 +650,20 @@ public Book findByISBN(String isbn) {
                 return node.numberOfCopiesAvailable; // Successfully updated the number of copies
             } else {
                 return -1; // Book not found
+            }
+        }
+
+        /**
+         * @author Diya Prasanth
+         * Return number of available copies in the library
+         * @param key
+         */
+        public int getNumOfCopiesAvailable(String key) {
+            TreeNode node = bst.get(key, root);
+            if (node != null) {
+                return node.numberOfCopiesAvailable;
+            } else {
+                return 0; 
             }
         }
 

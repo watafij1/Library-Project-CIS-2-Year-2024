@@ -399,7 +399,22 @@ public class Library {
                     System.out.println("An unexpected error occurred: " + e.getMessage());
                 }
             } else if (line.startsWith("findByTitleAndAuthor")) {
-                // Brackets are off with this, fix by writing into this file and not copy and pasting. 
+                /**
+                 * @author Diya Prasanth Find the isbn and other details given
+                 * the title and author
+                 */
+                String[] parts = line.split(" ");
+                if (parts.length != 3) {
+                    System.out.println("Invalid input. Please use the format: findByTitleAndAuthor <title> <author>");
+                } else {
+                    Book book = library.findByTitleAndAuthor(parts[1], parts[2]);
+                    if (book != null) {
+                        System.out.println("ISBN: " + book.isbn + ", Copies in the Library: " + book.numberOfCopies + ", Copies Currently Available:" + library.bst.getNumOfCopiesAvailable(book.isbn));
+                    } else {
+                        System.err.println("Book not found");
+                    }
+                }
+
             } else if (line.startsWith("return")) {
                 /**
                  * Returns ISBN Outputs if book is not found or if no checked
